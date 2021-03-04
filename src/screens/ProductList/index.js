@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PizzaCard from '../../components/PizzaCard';
+import GlobalMenu from '../../components/GlobalMenu';
 import api from '../../services/api';
 
 const ProductList = () => {
@@ -20,6 +21,7 @@ const ProductList = () => {
 
     return (
         <>
+            <GlobalMenu />
             <h1>Lista de Produtos</h1>
             {/* <div>
                 <label htmlFor="search">Pesquisar:</label>
