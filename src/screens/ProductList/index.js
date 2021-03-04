@@ -1,26 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import MovieCard from '../../components/MovieCard';
+import PizzaCard from '../../components/PizzaCard';
 import api from '../../services/api';
 
 const ProductList = () => {
-    const [movies, setMovies] = useState([]);
-    const [search, setSearch] = useState('');
+    const [products, setProducts] = useState([]);
+    // const [search, setSearch] = useState('');
 
-    const loadingMovies = async () => {
-        const response = await api.get(`/?apikey=925eba28&s=${search}`);
-        setMovies([]);
-        if (response.data.Search)
-            setMovies(response['data'].Search);
+    const loadingProducts = async () => {
+        // const response = await api.get(`/?apikey=925eba28&s=${search}`);
+        const response = await api.get(`/products`);
+        setProducts([]);
+        if (response.data)
+            setProducts(response.data);
     }
 
     useEffect(() => {
-        loadingMovies();
-    }, [search]);
+        loadingProducts();
+    }, []);
 
     return (
         <>
-            <h1>Lista de Filmes</h1>
-            <div>
+            <h1>Lista de Produtos</h1>
+            {/* <div>
                 <label htmlFor="search">Pesquisar:</label>
                 <input
                     id="search"
@@ -29,17 +30,12 @@ const ProductList = () => {
                     value={search}
                     onChange={(e) => { setSearch(e.target.value) }}
                 />
-            </div>
+            </div> */}
             <ul>
-                {movies.map(m => {
+                {products.map(p => {
                     return (
-                        <li key={m.imdbID}>
-                            <MovieCard
-                                cover={m.Poster}
-                                title={m.Title}
-                                release={m.Year}
-                                type={m.Type}
-                            />
+                        <li key={p.id}>
+                            <PizzaCard pizza={p} />
                         </li>
                     );
                 })}

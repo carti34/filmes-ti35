@@ -1,6 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import api from '../../services/api';
 
 const Register = () => {
     /* const validate = (values) => {
@@ -22,20 +23,31 @@ const Register = () => {
     const formik = useFormik({
         initialValues: {
             name: '',
-            email: '',
+            description: '',
         },
         validationSchema: Yup.object({
             name: Yup.string().required('Obrigatório'),
-            email: Yup.string().email('E-mail inválido').required('Obrigatório'),
+            description: Yup.string().required('Obrigatório'),
         }),
-        onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2));
+        onSubmit: async (values) => {
+            try {
+                const product = {
+                    name: values.name,
+                    description: values.description,
+                };
+                const response = await api.post('/products', product);
+                if (response.config) {
+                    alert(`O produto ${response.data.name} (id: ${response.data.id}) foi cadastrado com sucesso.`);
+                }
+            } catch (error) {
+                alert(`Ocorreu uma falha durante o cadastro do produto. Tente novamente. ${error}`);
+            }
         }
     });
 
     return (
         <>
-            <h1>Cadastro de Clientes</h1>
+            <h1>Cadastro de Produtos</h1>
             <form onSubmit={formik.handleSubmit}>
                 <div>
                     <label htmlFor="name">Nome: </label>
@@ -50,16 +62,16 @@ const Register = () => {
                     {formik.touched.name && formik.errors.name ? <label htmlFor="name">{formik.errors.name}</label> : null}
                 </div>
                 <div>
-                    <label htmlFor="email">E-mail: </label>
+                    <label htmlFor="description">Descrição: </label>
                     <input
-                        id="email"
-                        name="email"
+                        id="description"
+                        name="description"
                         type="text"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.email}
+                        value={formik.values.description}
                     />
-                    {formik.touched.email && formik.errors.email ? <label htmlFor="email">{formik.errors.email}</label> : null}
+                    {formik.touched.description && formik.errors.description ? <label htmlFor="description">{formik.errors.description}</label> : null}
                 </div>
                 <button type="submit">Enviar</button>
             </form>

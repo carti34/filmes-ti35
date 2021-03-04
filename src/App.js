@@ -3,7 +3,7 @@ import ProductList from './screens/ProductList';
 import Register from './screens/Register';
 
 const App = () => {
-  return <Register />
+  return <ProductList />
 };
 
 export default App;
