@@ -1,6 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import GlobalMenu from '../../components/GlobalMenu';
 import api from '../../services/api';
 
 const Register = () => {
@@ -47,6 +48,7 @@ const Register = () => {
 
     return (
         <>
+            <GlobalMenu />
             <h1>Cadastro de Produtos</h1>
             <form onSubmit={formik.handleSubmit}>
                 <div>
